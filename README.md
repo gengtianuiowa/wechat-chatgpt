@@ -142,3 +142,12 @@ check [issues page](https://github.com/fuergaosi233/wechat-chatgpt/issues).
 ## Show your support
 
 Give a ⭐️ if this project helped you!
+
+docker run -d --name wechat-chatgpt \
+    -e OPENAI_API_KEY="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" \
+    -e MODEL="gpt-3.5-turbo" \
+    -e CHAT_PRIVATE_TRIGGER_KEYWORD="" \
+    -v $(pwd)/data:/app/data/wechat-assistant.memory-card.json \
+    holegots/wechat-chatgpt:latest
+
+docker logs -f wechat-chatgpt

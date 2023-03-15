@@ -1,9 +1,12 @@
-import {config} from "./config.js";
+import { config } from "./config.js";
+import fetch from 'node-fetch';
 
 let apiKey = config.openai_api_key;
 let model = config.model;
 const sendMessage = async (message: string) => {
   try {
+    // var fetch = require('whatwg-fetch')
+    console.log("start");
     const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
       method: "POST",
       headers: {
@@ -21,12 +24,13 @@ const sendMessage = async (message: string) => {
         temperature: 0.6
       }),
     });
+    console.log("end");
     return response.json()
-      .then((data) => data.choices[0].message.content);
+      .then((data: any) => data.choices[0].message.content);
   } catch (e) {
     console.error(e)
     return "Something went wrong"
   }
 }
 
-export {sendMessage};
+export { sendMessage };

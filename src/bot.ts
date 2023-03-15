@@ -1,7 +1,7 @@
 import { config } from "./config.js";
 import { ContactInterface, RoomInterface } from "wechaty/impls";
 import { Message } from "wechaty";
-import {sendMessage} from "./chatgpt.js";
+import { sendMessage } from "./chatgpt.js";
 enum MessageType {
   Unknown = 0,
 
@@ -26,7 +26,7 @@ enum MessageType {
 const SINGLE_MESSAGE_MAX_SIZE = 500;
 export class ChatGPTBot {
   chatPrivateTiggerKeyword = config.chatPrivateTiggerKeyword;
-  chatTiggerRule = config.chatTiggerRule? new RegExp(config.chatTiggerRule): undefined;
+  chatTiggerRule = config.chatTiggerRule ? new RegExp(config.chatTiggerRule) : undefined;
   disableGroupMessage = config.disableGroupMessage || false;
   botName: string = "";
   ready = false;
@@ -44,7 +44,7 @@ export class ChatGPTBot {
     }
     return regEx
   }
-  async command(): Promise<void> {}
+  async command(): Promise<void> { }
   // remove more times conversation and mention
   cleanMessage(rawText: string, privateChat: boolean = false): string {
     let text = rawText;
@@ -52,14 +52,14 @@ export class ChatGPTBot {
     if (item.length > 1) {
       text = item[item.length - 1];
     }
-    
+
     const { chatTiggerRule, chatPrivateTiggerRule } = this;
-    
+
     if (privateChat && chatPrivateTiggerRule) {
       text = text.replace(chatPrivateTiggerRule, "")
     } else if (!privateChat) {
       text = text.replace(this.chatGroupTiggerRegEx, "")
-      text = chatTiggerRule? text.replace(chatTiggerRule, ""): text
+      text = chatTiggerRule ? text.replace(chatTiggerRule, "") : text
     }
     // remove more text via - - - - - - - - - - - - - - -
     return text
@@ -89,7 +89,7 @@ export class ChatGPTBot {
     let triggered = false;
     if (privateChat) {
       const regEx = this.chatPrivateTiggerRule
-      triggered = regEx? regEx.test(text): true;
+      triggered = regEx ? regEx.test(text) : true;
     } else {
       triggered = this.chatGroupTiggerRegEx.test(text);
       // group message support `chatTiggerRule`
@@ -109,7 +109,7 @@ export class ChatGPTBot {
     text: string
   ): boolean {
     return (
-      talker.self() ||
+      // talker.self() ||
       // TODO: add doc support
       messageType !== MessageType.Text ||
       talker.name() === "微信团队" ||
@@ -153,8 +153,8 @@ export class ChatGPTBot {
       const text = this.cleanMessage(rawText, privateChat);
       if (privateChat) {
         return await this.onPrivateMessage(talker, text);
-      } else{
-        if (!this.disableGroupMessage){
+      } else {
+        if (!this.disableGroupMessage) {
           return await this.onGroupMessage(talker, text, room);
         } else {
           return;

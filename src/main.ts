@@ -3,7 +3,7 @@ import QRCode from "qrcode";
 import { ChatGPTBot } from "./bot.js";
 const chatGPTBot = new ChatGPTBot();
 
-const bot =  WechatyBuilder.build({
+const bot = WechatyBuilder.build({
   name: "wechat-assistant", // generate xxxx.memory-card.json and save login data for the next login
 });
 async function main() {
@@ -12,6 +12,7 @@ async function main() {
     .on("scan", async (qrcode, status) => {
       const url = `https://wechaty.js.org/qrcode/${encodeURIComponent(qrcode)}`;
       console.log(`Scan QR Code to login: ${status}\n${url}`);
+      console.log(`t!!!!!!!!!ttttt1!!!!!!!!!!!!!!`);
       console.log(
         await QRCode.toString(qrcode, { type: "terminal", small: true })
       );
